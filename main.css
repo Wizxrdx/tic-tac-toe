@@ -1,0 +1,35 @@
+.square {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    width: 100px;
+    background-color: #eeeeee;
+    border: 5px solid black;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    font-size: 500%;
+}
+
+.board {
+    text-align: center;
+}
+
+.no-left {
+    border-left: 0px;
+}
+
+.no-right {
+    border-right: 0px;
+}
+
+.no-top {
+    border-top: 0px;
+}
+
+.no-bottom {
+    border-bottom: 0px;
+}
