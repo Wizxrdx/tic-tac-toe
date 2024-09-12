@@ -27,9 +27,9 @@ function endPlayerTurn() {
 
 function displayPlayerTurn() {
     if (playerTurn == 1) {
-        document.getElementById("playerTurn").innerHTML = "Player 1";
+        document.getElementById("playerTurn").innerHTML = "Player 1 (X)";
     } else {
-        document.getElementById("playerTurn").innerHTML = "Player 2";
+        document.getElementById("playerTurn").innerHTML = "Player 2 (O)";
     }
 }
 
@@ -55,7 +55,7 @@ function isBoardFull() {
 }
 
 function playerWon() {
-    alert("Player " + playerTurn + " Won!");
+    alert("Player " + playerTurn + (playerTurn == 1 ? " (X)" : " (O)") + " Won!");
     resetBoard();
 }
 
