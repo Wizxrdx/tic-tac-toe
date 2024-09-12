@@ -27,9 +27,9 @@ function endPlayerTurn() {
 
 function displayPlayerTurn() {
     if (playerTurn == 1) {
-        document.getElementById("playerTurn").innerHTML = "Player 1 (X)";
+        document.getElementById("playerTurn").innerHTML = "Human (X)";
     } else {
-        document.getElementById("playerTurn").innerHTML = "Player 2 (O)";
+        document.getElementById("playerTurn").innerHTML = "Computer (O)";
     }
 }
 
@@ -55,7 +55,7 @@ function isBoardFull() {
 }
 
 function playerWon() {
-    alert("Player " + playerTurn + (playerTurn == 1 ? " (X)" : " (O)") + " Won!");
+    alert((playerTurn == 1 ? "Human (X)" : "Computer (O)") + " Won!");
     resetBoard();
 }
 
@@ -68,10 +68,38 @@ function resetBoard() {
     playerTwoBoard = 0;
 }
 
-function IsTileOpen(binaryIndex) {
+function isTileOpen(binaryIndex) {
     open = playerOneBoard | playerTwoBoard;
     if ((open & binaryIndex) == 0) return true;
     return false;
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function computerTurn() {
+    var choice;
+    var binary;
+    
+    // console.log(isTileOpen(binary));
+    // console.log(document.getElementById(choice.toString()).text == null);
+    do {
+        choice = (Math.random() * 8).toFixed();
+        binary = Math.pow(2, choice);
+        
+        await sleep(500);
+        
+    } while (!(isTileOpen(binary) && document.getElementById(choice.toString()).text == null));
+    console.log(choice);
+    if (playerTurn == 2) {
+        document.getElementById(choice.toString()).innerHTML += "O";
+        playerTwoBoard |= binary;
+        
+        wins.forEach(checkIfPlayerWin);
+        isBoardFull();
+        endPlayerTurn();
+    }
 }
 
 function onClick(event) {
@@ -79,19 +107,18 @@ function onClick(event) {
     if (text.length == 0) {
         index = parseInt(event.target.id);
         binary = Math.pow(2, index);
-        if(IsTileOpen(binary)) {
+        if(isTileOpen(binary)) {
             if (playerTurn == 1) {
                 event.target.innerHTML += "X";
                 playerOneBoard |= binary;
-            } else 
-            {
-                event.target.innerHTML += "O";
-                playerTwoBoard |= binary;
+            } else {
+                return;
             }
             
             wins.forEach(checkIfPlayerWin);
             isBoardFull();
             endPlayerTurn();
+            computerTurn();
         }
     }
 }
